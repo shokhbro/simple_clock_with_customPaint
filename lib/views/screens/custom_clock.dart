@@ -27,7 +27,6 @@ class CustomClock extends CustomPainter {
 
     canvas.drawCircle(center, 145, circleOne);
     canvas.drawCircle(center, 150, circleTwo);
-    canvas.drawCircle(center, 20, circleThree);
 
     //! Line 1 (Hour hand)
     var lineOne = Paint();
@@ -86,6 +85,7 @@ class CustomClock extends CustomPainter {
           ),
       lineThree,
     );
+    canvas.drawCircle(center, 15, circleThree);
 
     //Add numbers around the clock
     var textStyle = const TextStyle(
