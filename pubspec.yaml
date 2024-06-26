@@ -19,7 +19,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/icon/clock_icon.png"
+  image_path: "assets/icon/icon_clock.png"
   remove_alpha_ios: true  # Remove alpha channel for iOS
 
 flutter:

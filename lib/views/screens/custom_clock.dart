@@ -12,17 +12,17 @@ class CustomClock extends CustomPainter {
 
     //! Circle 1
     var circleOne = Paint();
-    circleOne.color = const Color(0xff414673);
+    circleOne.color = Colors.white;
 
     //! Circle 2
     var circleTwo = Paint();
-    circleTwo.color = const Color(0xffe6ebfd);
-    circleTwo.strokeWidth = 13;
+    circleTwo.color = Colors.black;
+    circleTwo.strokeWidth = 8;
     circleTwo.style = PaintingStyle.stroke;
 
     //! Circle 3
     var circleThree = Paint();
-    circleThree.color = const Color(0xffe6ebfd);
+    circleThree.color = Colors.black;
     circleThree.strokeWidth = 10;
 
     canvas.drawCircle(center, 145, circleOne);
@@ -30,25 +30,25 @@ class CustomClock extends CustomPainter {
 
     //! Line 1 (Hour hand)
     var lineOne = Paint();
-    lineOne.color = Colors.purple.shade300;
-    lineOne.strokeWidth = 10;
+    lineOne.color = Colors.black;
+    lineOne.strokeWidth = 8;
     lineOne.strokeCap = StrokeCap.round;
 
     //! Line 1 (Minute hand)
     var lineTwo = Paint();
-    lineTwo.color = Colors.amber;
-    lineTwo.strokeWidth = 10;
+    lineTwo.color = Colors.black;
+    lineTwo.strokeWidth = 6;
     lineTwo.strokeCap = StrokeCap.round;
 
     //! Line 1 (Second hand)
     var lineThree = Paint();
-    lineThree.color = Colors.blue;
-    lineThree.strokeWidth = 10;
+    lineThree.color = Colors.red;
+    lineThree.strokeWidth = 4;
     lineThree.strokeCap = StrokeCap.round;
 
-    var secondHandLenth = size.width / 2 * 0.7;
-    var minuteHandLenth = size.width / 2 * 0.5;
-    var hourHandLenth = size.width / 2 * 0.3;
+    var secondHandLenth = size.width / 2 * 0.85;
+    var minuteHandLenth = size.width / 2 * 0.65;
+    var hourHandLenth = size.width / 2 * 0.45;
 
     var secondAngle = (pi / 30) * dateTime.second;
     var minuteAngle =
@@ -76,21 +76,10 @@ class CustomClock extends CustomPainter {
       lineTwo,
     );
 
-    canvas.drawLine(
-      center,
-      center +
-          Offset(
-            cos(secondAngle - pi / 2) * secondHandLenth,
-            sin(secondAngle - pi / 2) * secondHandLenth,
-          ),
-      lineThree,
-    );
-    canvas.drawCircle(center, 15, circleThree);
-
     //Add numbers around the clock
     var textStyle = const TextStyle(
       fontFamily: 'Lato',
-      color: Colors.white,
+      color: Colors.black,
       fontSize: 20,
     );
 
@@ -121,6 +110,19 @@ class CustomClock extends CustomPainter {
       );
       textPainter.paint(canvas, textOffset);
     }
+
+    // second Angle
+    canvas.drawLine(
+      center,
+      center +
+          Offset(
+            cos(secondAngle - pi / 2) * secondHandLenth,
+            sin(secondAngle - pi / 2) * secondHandLenth,
+          ),
+      lineThree,
+    );
+
+    canvas.drawCircle(center, 15, circleThree);
   }
 
   @override
