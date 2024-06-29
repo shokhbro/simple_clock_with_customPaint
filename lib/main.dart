@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_clock/views/screens/custom_clock.dart';
 
@@ -14,9 +15,11 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
   late AnimationController _controller;
+  late AnimationController _colonController;
+  late Animation<double> _colonAnimation;
+  final AudioPlayer _audioPlayer = AudioPlayer();
   bool isRunning = false;
-  late String hour;
-  late String minute;
+  late String hour, minute, second;
 
   @override
   void initState() {
@@ -26,19 +29,35 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
       duration: const Duration(seconds: 1),
     )..repeat();
 
+    _colonController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
+
+    _colonAnimation =
+        Tween<double>(begin: 1.0, end: 0.0).animate(_colonController);
+
     _controller.addListener(() {
       DateTime now = DateTime.now();
       setState(() {
         hour = now.hour.toString().padLeft(2, '0');
         minute = now.minute.toString().padLeft(2, '0');
+        second = now.second.toString().padLeft(2, '0');
+        _playTickSound();
       });
     });
   }
 
+  void _playTickSound() async {
+    await _audioPlayer.play(AssetSource("audios/tick_tock.mp3"));
+  }
+
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    _colonController.dispose();
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,12 +81,8 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
               ),
             ),
             const SizedBox(height: 50),
-            // ElevatedButton(
-            //   onPressed: toggleClock,
-            //   child: Text(isRunning ? 'Stop' : 'Start'),
-            // ),
             Container(
-              width: 170,
+              width: 220,
               height: 70,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -81,23 +96,53 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
                   Text(
                     hour,
                     style: const TextStyle(
-                      fontSize: 45,
+                      fontSize: 40,
                       fontFamily: 'Lato',
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    ":",
-                    style: TextStyle(
-                      fontSize: 45,
-                      fontFamily: 'Lato',
-                    ),
+                  const SizedBox(width: 5),
+                  Column(
+                    children: [
+                      FadeTransition(
+                        opacity: _colonAnimation,
+                        child: const Text(
+                          ":",
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
                   Text(
                     minute,
                     style: const TextStyle(
-                      fontSize: 45,
+                      fontSize: 40,
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  Column(
+                    children: [
+                      FadeTransition(
+                        opacity: _colonAnimation,
+                        child: const Text(
+                          ":",
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    second,
+                    style: const TextStyle(
+                      fontSize: 40,
                       fontFamily: 'Lato',
                     ),
                   ),
